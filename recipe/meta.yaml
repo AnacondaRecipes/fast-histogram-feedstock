@@ -33,7 +33,12 @@ test:
     - fast_histogram
   commands:
     - pip check
-    - pytest --pyargs fast_histogram --hypothesis-show-statistics
+    # https://github.com/astrofrog/fast-histogram/issues/92
+    # > raise ValueError(
+    #       f'Too many bins for data range. Cannot create {n_equal_bins} '
+    #       f'finite-sized bins.')
+    # E ValueError: Too many bins for data range. Cannot create 2 finite-sized bins.
+    - pytest --pyargs fast_histogram --hypothesis-show-statistics -k "not (test_1d_compare_with_numpy)"
   requires:
     - pip
     - pytest
@@ -47,7 +52,7 @@ about:
   summary: Fast 1D and 2D histogram functions in Python
   description: |
     Sometimes you just want to compute simple 1D or 2D histograms with regular bins. Fast. No nonsense. Numpy’s
-    histogram functions are versatile, and can handle for example non-regular binning, but this versatility comes at the 
+    histogram functions are versatile, and can handle for example non-regular binning, but this versatility comes at the
     expense of performance.
 
     The fast-histogram mini-package aims to provide simple and fast histogram functions for regular bins that don’t

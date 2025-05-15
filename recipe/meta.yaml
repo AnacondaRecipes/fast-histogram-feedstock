@@ -23,16 +23,17 @@ requirements:
     - setuptools
     - setuptools_scm
     - pip
-    - numpy >=2.0.0
+    - numpy {{ numpy }}
   run:
     - python
-    - {{ pin_compatible('numpy') }}
+    - numpy
 
 test:
   imports:
     - fast_histogram
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     # https://github.com/astrofrog/fast-histogram/issues/92
     # > raise ValueError(
     #       f'Too many bins for data range. Cannot create {n_equal_bins} '
